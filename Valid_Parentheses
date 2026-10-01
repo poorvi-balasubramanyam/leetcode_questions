@@ -1,0 +1,44 @@
+this question focuses to joining the opening and closing of brackets in orderly manner
+suppose "()" -> i/p, then o/p is true
+similarly, ([]) -> i/p, o/p is true
+({)} -> i/p o/p -> false
+
+Brute force approach: We need to assign the opening and the closing of brackets. So, the approach would be to find the pairs and remove them until nothing exists
+#code:
+
+class Solution
+  def isValid(self, s: str) -> bool:
+    while True:
+      prev = s
+      s=s.replace("()", "")
+      s=s.replace("[]", "")
+      s=s.replace("{}", "")
+
+      if s == prev:
+        break
+
+  return s == ""
+
+Space O(n) Time O(n^2)
+
+Optimal approach: Stack
+
+Stack follows (LIFO) - last in first out
+So, the last element will be first removed. Basically like stacking plates and when the stack is empty, the brackets are valid because we are removing from the stack and matching it with the pair
+
+#code:
+class Solution:
+    def isValid(self, s: str) -> bool:
+        pairs = {')': '(', '}': '{', ']': '['}
+        stack = []
+
+        for ch in s:
+            if ch in '([{':
+                stack.append(ch)
+            elif ch in pairs:
+                if not stack or stack.pop() != pairs[ch]:
+                    return False
+
+        return len(stack) == 0
+
+Space O(n) Time O(n)
